@@ -192,7 +192,7 @@
         <li class="menu-item menu-item-学习1">
           <a href="/study1" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br>
             
             学习1
           </a>
@@ -202,19 +202,19 @@
         <li class="menu-item menu-item-学习2">
           <a href="/study2" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-key"></i> <br>
             
             学习2
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-刷题">
+        <li class="menu-item menu-item-学习3">
           <a href="/study3" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-tree"></i> <br>
             
-            刷题
+            学习3
           </a>
         </li>
       
@@ -242,7 +242,7 @@
         <li class="menu-item menu-item-搜索">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-search"></i> <br>
             
             搜索
           </a>
@@ -340,7 +340,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">4.2k</span>
+                <span title="Words count in article">5.3k</span>
               
 
               
@@ -354,7 +354,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">11 mins.</span>
+                <span title="Reading time">13 mins.</span>
               
             </div>
           
@@ -374,12 +374,16 @@
       
 
       
-        <p>题目：<br>链接：<a href="https://leetcode-cn.com/problems/balanced-binary-tree" target="_blank" rel="noopener">https://leetcode-cn.com/problems/balanced-binary-tree</a><br>给定一个二叉树，判断它是否是高度平衡的二叉树。<br><a id="more"></a><br>本题中，一棵高度平衡二叉树定义为：</p>
+        <h3 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h3><p>给定一个二叉树，判断它是否是高度平衡的二叉树。本题中，一棵高度平衡二叉树定义为：</p>
 <blockquote>
-<p>一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。<br>示例 1:<br>给定二叉树 [3,9,20,null,null,15,7]<br>    3<br>   / \<br>  9  20<br>    /  \<br>   15   7<br>返回 true 。<br>示例 2:<br>给定二叉树 [1,2,2,3,3,null,null,4,4]<br>       1<br>      / \<br>     2   2<br>    / \<br>   3   3<br>  / \<br> 4   4<br>返回 false 。</p>
+<p>一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。</p>
 </blockquote>
-<p>思路：<br>这道题实际上是二叉树求深度的延伸，利用递归的思路，对左右子树求深度，判断深度差是否满足</p>
-<p>代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getDeep</span><span class="params">(self,root)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>, <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        l_flag, l_deep = self.getDeep(root.left)</span><br><span class="line">        r_flag, r_deep = self.getDeep(root.right)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (l_flag <span class="keyword">and</span> r_flag):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>, <span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> abs(l_deep - r_deep) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>, max(l_deep, r_deep)+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>, <span class="number">-1</span></span><br><span class="line">            </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isBalanced</span><span class="params">(self, root: TreeNode)</span> -&gt; bool:</span></span><br><span class="line">        flag, _deep = self.getDeepth(root)</span><br><span class="line">        <span class="keyword">return</span> flag</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>示例1:<br>给定二叉树 [3,9,20,null,null,15,7]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure></p>
+<p>返回true。<br>示例2:<br>给定二叉树 [1,2,2,3,3,null,null,4,4]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">      1</span><br><span class="line">     / \</span><br><span class="line">    2   2</span><br><span class="line">   / \</span><br><span class="line">  3   3</span><br><span class="line"> / \</span><br><span class="line">4   4</span><br></pre></td></tr></table></figure></p>
+<p>返回false。<a href="https://leetcode-cn.com/problems/balanced-binary-tree" target="_blank" rel="noopener">点我进入官网做题</a></p>
+<h3 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h3><p>这道题实际上是二叉树求深度的延伸，利用递归的思路，对左右子树求深度，判断深度差是否满足</p>
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getDeep</span><span class="params">(self,root)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>, <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        l_flag, l_deep = self.getDeep(root.left)</span><br><span class="line">        r_flag, r_deep = self.getDeep(root.right)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> (l_flag <span class="keyword">and</span> r_flag):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>, <span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> abs(l_deep - r_deep) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span>, max(l_deep, r_deep)+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>, <span class="number">-1</span></span><br><span class="line">            </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isBalanced</span><span class="params">(self, root: TreeNode)</span> -&gt; bool:</span></span><br><span class="line">        flag, _deep = self.getDeepth(root)</span><br><span class="line">        <span class="keyword">return</span> flag</span><br></pre></td></tr></table></figure>
 <p>注意：<br>python对于返回值没有限制；<br>python是动态语言，只有执行的时候才会确定类型，定因此不需要事先声明；<br>返回值不管是返回什么，只要接收的时候用同样个数的对象去接收就行。</p>
 
       
@@ -508,8 +512,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -574,7 +587,11 @@
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="codle.net" title="codle's blog" target="_blank">codle's blog</a>
+                    <a href="https://codle.net" title="codle's blog" target="_blank">codle's blog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://amorynan.github.io/" title="amory's blog" target="_blank">amory's blog</a>
                   </li>
                 
               </ul>
@@ -586,6 +603,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目："><span class="nav-number">1.</span> <span class="nav-text">题目：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路："><span class="nav-number">2.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码："><span class="nav-number">3.</span> <span class="nav-text">代码：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -612,7 +645,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="Site words total count">NaNm</span>
+    <span title="Site words total count">4k</span>
   
 
   
@@ -621,7 +654,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Site reading time">NaN:aN</span>
+    <span title="Site reading time">10 mins.</span>
   
 </div>
 
