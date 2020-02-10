@@ -124,7 +124,7 @@
 
 
 
-  <title>论文泛读·Real-time Personalization using Embeddings for Search Ranking at Airbnb | 扑扑星球</title>
+  <title>论文泛读·Learning Tree-based Deep Model for Recommender Systems | 扑扑星球</title>
   
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pupu.work/2019/10/07/paper/embedding/20190702-1/">
+    <link itemprop="mainEntityOfPage" href="http://pupu.work/2020/02/09/paper/rs/20200209/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qianning">
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">论文泛读·Real-time Personalization using Embeddings for Search Ranking at Airbnb</h1>
+          <h1 class="post-title" itemprop="name headline">论文泛读·Learning Tree-based Deep Model for Recommender Systems</h1>
         
 
         <div class="post-meta">
@@ -310,7 +310,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-07T00:00:00+08:00">2019-10-07</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-09T15:38:37+08:00">2020-02-09</time>
             
 
             
@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">1.5k</span>
+                <span title="Words count in article">3.1k</span>
               
 
               
@@ -376,7 +376,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">4 mins.</span>
+                <span title="Reading time">8 mins.</span>
               
             </div>
           
@@ -396,19 +396,17 @@
       
 
       
-        <p>原文链接：</p>
-<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>这篇文章提出了基于embedding的实时个性化推荐模型，构建了两种长短期embedding模型。</p>
-<h3 id="解决了什么问题："><a href="#解决了什么问题：" class="headerlink" title="解决了什么问题："></a>解决了什么问题：</h3><p>在Airbnb短期租赁市场中、推荐排序问题非常独特，是一个对于房屋主人和客人的双边市场，且在一个用户很少去相同的旅游地两次和一个房源一次只能接受一组特定日期的客人。使用创建的embedding模型能够捕捉用户的长短期兴趣，实时个性化推荐。<br><a id="more"></a></p>
-<h3 id="采用了什么方法："><a href="#采用了什么方法：" class="headerlink" title="采用了什么方法："></a>采用了什么方法：</h3><p>此文章经过统计，分析得到用户预订是一个稀疏数据（单个用户平均每年预订两次），因此在用户类型的级别而不是特定用户ID上做embedding。</p>
-<h5 id="短期实时个性化（列表短期embedding）"><a href="#短期实时个性化（列表短期embedding）" class="headerlink" title="短期实时个性化（列表短期embedding）"></a>短期实时个性化（列表短期embedding）</h5><p>使用skip-gram模型来学习列表特征。</p>
-<ol>
-<li>已登记列表作为全局上下文</li>
-<li>用于集合搜索的适配训练（正上下文、负上下文），不平衡影响内部的相似性</li>
-<li>冷启动列表embedding：为了新的列表创建embedding，利用其它列表的现有embedding（具体方法为：寻找3个地理位置最近的有embedding的列表，其列表类型与新列表相同，计算其平均向量来embedding新列表）</li>
-<li>检查列表embedding：通过捕获列表的特征进行评估<br>​    （1）对学习的embedding进行K-means聚类：评估地理相似性是否被编码<br>​    （2）计算余弦相似度：评估类型和特征<br>​    （3）K-近邻：评估embedding是否捕获特征（难以以列表特征形式提取，不需学习的原始特征，例如风格）</li>
-</ol>
-<h5 id="长期个性化（用户类型和列表embedding）"><a href="#长期个性化（用户类型和列表embedding）" class="headerlink" title="长期个性化（用户类型和列表embedding）"></a>长期个性化（用户类型和列表embedding）</h5><p>由于：<br>​    1.用户的预订数量远小于浏览<br>​    2.学习一个有意义的embedding至少需要5-10个实体，而用户极少使用过平台5-10次<br>​    3.两次预订的时间间隔很长，用户偏好可能发生改变。<br>因此选择学习种类级别的embedding（而不是ID级别的embedding）。<br>元数据基于规则映射到不同列表类型的桶中（桶以数据驱动的方式确定，为了最大化的覆盖每种类型的桶）。</p>
-<p>​    </p>
+        <h3 id="1-简述："><a href="#1-简述：" class="headerlink" title="1.简述："></a>1.简述：</h3><p>我们知道推荐问题可以粗略的划分为召回问题和排序问题这两个子问题。排序问题由于候选集很小，我们可以在这个部分使用各种的复杂模型。而召回问题由于需要从全量候选集中挑选topK集合，当我们面对的全量候选集量级十分庞大时，在有限时间内如何达到最好的召回效果就成为了一个重点问题<a id="more"></a>，这直接影响了整个推荐过程的质量。该文章提出了一种全新的基于树模型全库搜索方法，自上而下遍历树节点，进行用户对兴趣的偏好计算，最终实现对用户兴趣的推荐。</p>
+<h3 id="2-技术架构："><a href="#2-技术架构：" class="headerlink" title="2.技术架构："></a>2.技术架构：</h3><p>该文章的技术架构旨在建立高效检索，只做有限次的计算就等价于全量遍历计算的效果，使其能承载先进的模型能力。该文章提出一种基于树的深度推荐模型TDM，其中树通常用于划分样本或标签空间，以降低计算成本。信息的层次结构普遍存在于许多领域。提出的TDM方法利用了这种信息层次结构，并将推荐问题转化为一系列层次分类问题。通过分层搜索来提高推荐精度，将一个大问题划分为一个小问题，并从容易到困难依次解决它们。</p>
+<p><img src="/images/paper/src20200209/001.png" alt="模型架构"><br>基于树的深层模型体系结构。用户行为按照时间戳分为不同的时间窗口。在每个时间窗口中，项目嵌入被加权平均，权重来自激活单元。每个时间窗口的输出以及候选节点的嵌入被连接为神经网络输入。经过三个完全连接的层与PReLU激活和批量归一化，使用二进制Softmax来产生用户是否对候选节点感兴趣的概率。每个项目及其对应的叶节点共享相同的嵌入。所有嵌入都是随机初始化的。</p>
+<p>值得一提的是，基于树的方法也被研究在语言模型hierarchical softmax，但它不同于该文章所提出的TDM。在下一个单词预测问题中，传统的Softmax必须计算归一化项才能得到任何单个单词的概率，这是非常耗时的。而分层softmax使用树结构，下一个单词的概率被转换为沿着树路径的节点概率的乘积。这种公式将下一字概率的计算复杂度降低到对数大小。然而在推荐问题中，目标是在整个语料库中搜索那些最喜欢的项目，这是一个检索问题。在分层的softmaxt中，父节点的最优不能保证最优的低级别节点在它们的后代中，所有的项仍然需要遍历才能找到最优的节点。因此，分层softmax不合适解决这样的检索问题。为了解决检索问题，该文章提出了一种最大堆样树的公式，并引入了深层神经网络对树进行建模，这是一种有效的方法。</p>
+<h4 id="最大堆树"><a href="#最大堆树" class="headerlink" title="最大堆树"></a>最大堆树</h4><p>该文章在分层的Softmax的基础上，给出了一种新的最大堆树公式，并说明了如何训练基于树的模型。</p>
+<p>目标是寻找偏好概率最大的k个叶子节点，我们可以在每层中检索最大偏好概率的k个节点，只有那些子节点的每层的顶部k需要探索。这样，就可以最终检索到顶部的k个叶节点。实际上，我们不需要知道每个树节点的精确的真实概率。我们需要的是每层中概率的顺序，以帮助找到层次中的顶部k个节点。基于这个观察，本文通过用户的隐式反馈数据和神经网络来训练每个级别的鉴别器，从而判断偏好概率的顺序。</p>
+<p>本文提出的抽样方法与分层Softmax中的基本方法有很大的不同。与分层softmax方法相比，该方法使模型能够区分最优结果和次优结果，我们随机选择负样本在同一水平上的每个正节点。这种方法使得每个级别的鉴别器都是一个级别内的全局判别器。每个等级的鉴别器具有可以独立地做出精确的决策，而不依赖于上层决策的优点。全局识别能力对于等级再评价者是非常重要的方法。它确保即使模型做出了糟糕的决策，并且低质量的节点泄漏到上层设置的候选节点中，那些相对较好的节点（而不是非常糟糕的节点）也可以由以下级别的模型选择。<br>我们提出的TDM方法不仅减少了预测时的计算量，而且与所有叶节点的蛮力搜索相比，具有提高推荐质量的潜力。</p>
+<h4 id="深层模型"><a href="#深层模型" class="headerlink" title="深层模型"></a>深层模型</h4><p>在点击率预测工作的启发下，本文学习了低维嵌入树中的每个节点，并使用注意模块软搜索相关行为，以获得更好的用户表示。为了利用包含时间戳信息的用户行为，本文设计了分块输入层，以区分位于不同时间窗口中的行为。历史行为可以沿着时间线划分为不同的时间窗口，每个时间窗口中的项目嵌入时间窗口是加权平均的。注意模块和后续网络大大加强了模型的能力，也使得用户对候选项目的偏好无法调节到内积模式。树节点的嵌入和树结构本身也是模型的一部分。为了最小化损失，使用采样节点和相应的特征来训练网络。 </p>
+<h4 id="构造和学习树"><a href="#构造和学习树" class="headerlink" title="构造和学习树"></a>构造和学习树</h4><p>树的初始化。由于我们假设树代表用户利益的分层信息，所以很自然地构建树的方式是将类似的项目组织在紧密的位置上。鉴于类别信息在许多领域是广泛可用的，我们直觉地想出了一种方法，利用项目的类别信息来构建初始树。不失去一般性，在本节中以二叉树为例。首先，我们随机排序所有类别，并将属于同一类别的项目按类别内随机顺序放置在一起。如果一件物品属于多个类别，该项被分配给一个随机的唯一性。这样，我们就可以得到一个排名项目的列表。其次，这些排名的项目被递归地减半为两个相等的部分直到当前集只包含一个项，它可以自上而下构造一个几乎完全的二叉树。这种基于类别的初始化可以得到比完全随机树更好的层次结构和结果。</p>
+<p>学习树。作为模型的一部分，每个叶节点的嵌入可以在模型训练后学习。然后，我们使用学习的叶节点的嵌入向量来聚类一棵新树。考虑到语料库的大小，我们使用k均值聚类算法，以其良好的可扩展性。在每个步骤中，候选集根据它们的嵌入向量聚集成两个子集。注意，对于更平衡的树，这两个子集被调整为相等。当只剩下一个项时，递归就停止了，并且可以用自上而下的方式构造二叉树。</p>
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="3.结论："></a>3.结论：</h3><p>该文章找出了基于模型的方法从大规模语料库中产生建议的主要挑战，即预测时的计算问题。提出了一种基于树的方法，其中任意高级模型可以用于大规模推荐，以推断用户兴趣粗到细沿树。除了训练模型外，还采用了树结构学习方法，证明了更好的树结构可以得到更好的结果。一个可能的未来方向是设计更精细的树学习方法。该文章进行了广泛的实验验证了该方法在推荐精度和新颖性方面的有效性。此外，实证分析展示了所提出的方法是如何和为什么工作的。在淘宝展示广告平台中，提出的TDM方法已经部署在生产中，提高了业务效益和用户体验。</p>
 
       
     </div>
@@ -462,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/06/paper/rs/20190704-1/" rel="next" title="论文泛读·综述·Sequential Recommender Systems:Challenges, Progress and Prospects">
-                <i class="fa fa-chevron-left"></i> 论文泛读·综述·Sequential Recommender Systems:Challenges, Progress and Prospects
+              <a href="/2019/10/10/paper/ctr/20190703-1/" rel="next" title="论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction">
+                <i class="fa fa-chevron-left"></i> 论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction
               </a>
             
           </div>
@@ -471,10 +469,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/10/paper/ctr/20190703-1/" rel="prev" title="论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction">
-                论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -647,7 +641,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述："><span class="nav-number">1.</span> <span class="nav-text">简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决了什么问题："><span class="nav-number">2.</span> <span class="nav-text">解决了什么问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用了什么方法："><span class="nav-number">3.</span> <span class="nav-text">采用了什么方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#短期实时个性化（列表短期embedding）"><span class="nav-number">3.0.1.</span> <span class="nav-text">短期实时个性化（列表短期embedding）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#长期个性化（用户类型和列表embedding）"><span class="nav-number">3.0.2.</span> <span class="nav-text">长期个性化（用户类型和列表embedding）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简述："><span class="nav-number">1.</span> <span class="nav-text">1.简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-技术架构："><span class="nav-number">2.</span> <span class="nav-text">2.技术架构：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最大堆树"><span class="nav-number">2.1.</span> <span class="nav-text">最大堆树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深层模型"><span class="nav-number">2.2.</span> <span class="nav-text">深层模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造和学习树"><span class="nav-number">2.3.</span> <span class="nav-text">构造和学习树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-结论："><span class="nav-number">3.</span> <span class="nav-text">3.结论：</span></a></li></ol></div>
             
 
           </div>
