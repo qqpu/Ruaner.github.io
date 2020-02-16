@@ -124,7 +124,7 @@
 
 
 
-  <title>论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction | 扑扑星球</title>
+  <title>论文泛读·TEM:Tree-enhanced Embedding Model for Explainable Recommendation | 扑扑星球</title>
   
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pupu.work/2019/10/10/paper/ctr/20190703-1/">
+    <link itemprop="mainEntityOfPage" href="http://pupu.work/2020/02/16/paper/rs/20200216/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qianning">
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">论文泛读·Spatio-Temporal Neural Networks for Click-Through Rate Prediction</h1>
+          <h1 class="post-title" itemprop="name headline">论文泛读·TEM:Tree-enhanced Embedding Model for Explainable Recommendation</h1>
         
 
         <div class="post-meta">
@@ -310,7 +310,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-10T00:00:00+08:00">2019-10-10</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-16T14:41:32+08:00">2020-02-16</time>
             
 
             
@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">2k</span>
+                <span title="Words count in article">3.1k</span>
               
 
               
@@ -376,7 +376,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">5 mins.</span>
+                <span title="Reading time">8 mins.</span>
               
             </div>
           
@@ -396,20 +396,18 @@
       
 
       
-        <p>原文链接：<a href="https://arxiv.org/abs/1906.03776" target="_blank" rel="noopener">https://arxiv.org/abs/1906.03776</a></p>
-<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>这篇文章的主要工作是探讨了三种辅助数据对预测CTR的影响，提出的DSTN模型能够提取出辅助广告数据中有效的部分，并使用统一的框架将这些数据融合到一起。<br><a id="more"></a><br>以往的CTR预测工作，大多是考虑独立的广告，而忽略了可能影响结果的辅助广告信息。这里对文中提到的该领域已有工作进行整理：<br><img src="/images/paper/src201907031/CTR预估模型.jpg" alt="CTR预估模型"><br>以往的CTR预测工作，有少部分探索了辅助数据来提高CTR的性能。这里对已有工作进行整理：<br><img src="/images/paper/src201907031/探索辅助数据.jpg" alt="探索辅助数据"></p>
-<h3 id="解决了什么问题："><a href="#解决了什么问题：" class="headerlink" title="解决了什么问题："></a>解决了什么问题：</h3><p>这篇文章是探索辅助数据进而提高CTR预测性能的，那么首先要考虑利用辅助广告需要解决的问题：</p>
-<ul>
-<li>每种类型的辅助广告数量不尽相同</li>
-<li>辅助广告不一定和目标广告相关，如何提取有用的信息以及抑制噪声？</li>
-<li>每一种辅助广告的影响程度可能不同</li>
-<li>提出的模型应该融合所有的可用信息<br>文章中提到了三种模型来解决。<h3 id="采用了什么方法："><a href="#采用了什么方法：" class="headerlink" title="采用了什么方法："></a>采用了什么方法：</h3>以下三种模型首先用embedding将特征表示为嵌入向量，广告的表示是所有嵌入向量的级联，每个嵌入向量用于一个字段，每个字段对于不同类型的广告可能不同。<h4 id="Pooling-Model"><a href="#Pooling-Model" class="headerlink" title="Pooling Model"></a>Pooling Model</h4><img src="/images/paper/src201907031/pooling-model.png" alt="pooling-model"><br>将每种辅助广告类型处理成定长向量，在sum pooling中将辅助特征矩阵求和。<br>缺点：有用信息容易被忽略。如果池中的广告对目标广告的贡献很小但数量很多，就会主导池的结果<h4 id="Self-Attention-Model"><a href="#Self-Attention-Model" class="headerlink" title="Self-Attention Model"></a>Self-Attention Model</h4>应用于特定类型的辅助广告，attention mechanism允许模型自动搜索与预测目标单词有关的源句部分。该模型对于辅助广告的权重不同，能够强调有用信息，抑制噪声数据。<br>缺点：</li>
-</ul>
-<ol>
-<li>权重是仅基于某辅助广告计算的，没有考虑到辅助广告和目标广告的关系</li>
-<li>归一化权重是根据辅助广告的相对重要性计算的，那么及时所有的辅助广告都和目标广告无关，由于进行了归一化，权重仍旧会很大</li>
-<li>每种辅助广告的绝对值数量值也很重要，但使用了归一化后无法得到该值<h4 id="Interactive-Attetion-Model"><a href="#Interactive-Attetion-Model" class="headerlink" title="Interactive-Attetion Model"></a>Interactive-Attetion Model</h4><img src="/images/paper/src201907031/interactive-attention-model.png" alt="interactive-attention-model"><br>此模型克服了上一个模型的缺点，通过MLP学习权重（权重取决于目标广告），与其他辅助广告之间没有比较，避免了归一化带来的影响。其矩阵融合是动态可调整的，能够自适应的根据目标广告提取更多的辅助信息</li>
-</ol>
+        <h3 id="1-简述："><a href="#1-简述：" class="headerlink" title="1.简述："></a>1.简述：</h3><p>在推荐系统中，传统的协同过滤只针对用户与项目的交互进行建模，无法为推荐提供具体的理由；一些基于嵌入的方法，比如 Wide&amp;Deep、NFM 等，虽然提升了推荐的准确性，但同样无法提供具体的推荐理由；而基于树的方法，比如决策树等，通过推断决策来预测数据里的规则，虽然可以解释，但却无法推广到看不见的特性交互。<a id="more"></a>该文章提出了一种可解释推荐的树增强嵌入模型，能够在保证推荐准确率的同时，增加推荐的可解释性。</p>
+<h3 id="2-技术架构："><a href="#2-技术架构：" class="headerlink" title="2.技术架构："></a>2.技术架构：</h3><p>该文章提出的树增强嵌入方法，它结合了基于嵌入和基于树的模型的优点。首先使用基于树的模型从丰富的侧信息来学习显式决策规则。然后设计了一个嵌入模型，它可以包含显式交叉特征，并推广到用户ID和项目ID上看不见的交叉特征。其嵌入方法的核心是一个易于解释的注意网络，使推荐过程完全透明和可解释。</p>
+<p>TEM的模型架构如下图：</p>
+<p><img src="/images/paper/src20200216/001.png" alt="模型架构"></p>
+<h4 id="构建交叉特征"><a href="#构建交叉特征" class="headerlink" title="构建交叉特征"></a>构建交叉特征</h4><p>在学习过程中，我们的主要考虑是使交叉特征显式和可解释性。工业上一个广泛使用的解决方案是手工制作交叉特征，然后将它们输入一种可解释的方法，以了解每个交叉特征的重要性，例如 Logistic 回归。然而，这种方法的困难在于它是不可扩展的。为了模拟高阶特征交互，必须将多个特征变量交叉在一起，从而导致复杂性的指数增加。虽然通过仔细的特征工程，如只交叉重要变量或值，可以在一定程度上控制复杂性，但它需要广泛的领域知识来实现。</p>
+<p>为了避免这种劳动密集型特征工程，该文章利用 GBDT，自动识别有用的交叉特征。虽然 GBDT 不是专门为提取交叉特征而设计的，考虑到叶节点表示交叉特征，并且树是通过优化对历史相互作用的预测来构造的，可以合理地认为叶节点是预测的有用交叉特征。</p>
+<h4 id="具有交叉特征的预测"><a href="#具有交叉特征的预测" class="headerlink" title="具有交叉特征的预测"></a>具有交叉特征的预测</h4><p>利用显式交叉特征，可以采用稀疏线性方法来了解每个交叉特征的重要性，并选择顶部交叉特征作为预测的解释。该文章将此解决方案称为 GBDT+LR。虽然 GBDT+LR 能够学习交叉特征的重要性，但它为所有用户项对的预测赋予了一个交叉特征相同的权重，这限制了模仿建模的保真度。在实际应用程序中，具有相似人口结构的用户可能选择相似的项目是常见的，但它们是由不同的意图或原因驱动的。为了确保表达性，该文章认为对于不同的用户项对，对交叉特征进行不同的评分是很重要的，即个性化交叉特征的权重，而不是使用全局加权机制。</p>
+<p>最近在神经网络推荐模型上的进展，如 Wide&amp;Deep 和 NFM ，可以在交叉特征上允许个性化的重要性。这是通过嵌入用户ID、项目ID和交叉特性一起进入一个共享的嵌入空间，然后在嵌入向量上执行非线性转换来实现的。非线性隐藏层的强大表示能力使用户ID、项目ID和交叉特征之间的复杂交互能够被捕获。因此，当使用不同的用户项对进行预测时，交叉特征可能会产生不同的影响。然而，由于难以解释的非线性隐层，这种方法无法解释交叉特征的个性化权重。因此，为了解释性的目的，必须放弃使用完全连接的隐藏层，尽管它们有助于模型在现有方法中的性能。</p>
+<p>为了开发一种既有效又可解释的方法，该文章介绍了 TEM 的两个基本成分- Embedding 和 Attention。首先将每个交叉特征与嵌入向量相关联，允许捕获交叉特征之间的相关性。然后设计了一个注意机制来显式地建模交叉特征上的个性化权重。最后，将用户ID、项目ID和交叉特征的嵌入集成在一起，进行最终预测。嵌入和注意的使用赋予了 TEM 很强的表示能力并保证了有效性，尽管它是一个没有任何完全连接的隐藏层的浅层模型。</p>
+<h5 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a>Embedding</h5><p>与使用标量加权特征的LR相比，将交叉特征嵌入到向量空间中有两个优点。首先，嵌入学习可以捕捉到两者之间的相关性特征，例如，频繁发生的特征可能会产生类似的嵌入，这可以缓解数据稀疏问题。其次，它提供了一种将 GBDT 的输出与基于嵌入的协作过滤无缝集成的方法，比模型预测上的后期融合更灵活。</p>
+<h5 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h5><p>该文章通过为每个交叉特征的嵌入分配一个注意的权重来明确地捕捉交叉特征对预测的不同重要性。在这里用平均池和最大池这两种方法来聚合交叉特征的嵌入，以获得交叉特征的统一表示：<br><img src="/images/paper/src20200216/003.png" alt="公式1"><br>其中 $w_{uil}$ 表示对于 $(u,i)$ 的第 $l$ 个交叉特征的权重，是一个可训练的参数。如果直接训练，那么对于以前从未同时发生过的 $(u,i)$ ，$w_{uil}$ 是永远无法估计的。除此之外，参数空间也十分巨大，因为用户和商品的个数可能很多。为了解决泛化性和大规模的问题，该文章提出将 $w_{uil}$ 看作一个独立的函数，也就是用一个 MLP 来估计参数 $w_{uil}$ 。如下图：<br><img src="/images/paper/src20200216/004.png" alt="公式2"><br><img src="/images/paper/src20200216/002.png" alt="attention"></p>
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="3.结论："></a>3.结论：</h3><p>该文章提出了一种树增强嵌入方法（TEM），它将嵌入模型的泛化能力与基于树的模型的可解释性无缝结合起来。由于从基于树的部分和易于解释的注意网络中提取的显式交叉特征，其解决方案的整个预测过程是完全透明和自我解释的。同时作为最先进的推荐方法，TEM 可以获得类似的性能。<br>该文章提出了扩展 TEM 的三个方向：<br>首先，可以试图共同学习基于树和基于嵌入的模型，而不是单独建模两个组件。<br>第二，考虑其他上下文信息，如时间、位置和用户情感，以进一步丰富我们的可解释性。<br>第三，探索将知识图和逻辑规则纳入 TEM 的有效性。</p>
 
       
     </div>
@@ -463,8 +461,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/07/paper/embedding/20190702-1/" rel="next" title="论文泛读·Real-time Personalization using Embeddings for Search Ranking at Airbnb">
-                <i class="fa fa-chevron-left"></i> 论文泛读·Real-time Personalization using Embeddings for Search Ranking at Airbnb
+              <a href="/2020/02/09/paper/rs/20200209/" rel="next" title="论文泛读·Learning Tree-based Deep Model for Recommender Systems">
+                <i class="fa fa-chevron-left"></i> 论文泛读·Learning Tree-based Deep Model for Recommender Systems
               </a>
             
           </div>
@@ -472,10 +470,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/09/paper/rs/20200209/" rel="prev" title="论文泛读·Learning Tree-based Deep Model for Recommender Systems">
-                论文泛读·Learning Tree-based Deep Model for Recommender Systems <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -648,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述："><span class="nav-number">1.</span> <span class="nav-text">简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决了什么问题："><span class="nav-number">2.</span> <span class="nav-text">解决了什么问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用了什么方法："><span class="nav-number">3.</span> <span class="nav-text">采用了什么方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pooling-Model"><span class="nav-number">3.1.</span> <span class="nav-text">Pooling Model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Self-Attention-Model"><span class="nav-number">3.2.</span> <span class="nav-text">Self-Attention Model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Interactive-Attetion-Model"><span class="nav-number">3.3.</span> <span class="nav-text">Interactive-Attetion Model</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简述："><span class="nav-number">1.</span> <span class="nav-text">1.简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-技术架构："><span class="nav-number">2.</span> <span class="nav-text">2.技术架构：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建交叉特征"><span class="nav-number">2.1.</span> <span class="nav-text">构建交叉特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具有交叉特征的预测"><span class="nav-number">2.2.</span> <span class="nav-text">具有交叉特征的预测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Embedding"><span class="nav-number">2.2.1.</span> <span class="nav-text">Embedding</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Attention"><span class="nav-number">2.2.2.</span> <span class="nav-text">Attention</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-结论："><span class="nav-number">3.</span> <span class="nav-text">3.结论：</span></a></li></ol></div>
             
 
           </div>
