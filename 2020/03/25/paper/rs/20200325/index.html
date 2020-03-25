@@ -124,7 +124,7 @@
 
 
 
-  <title>论文泛读·Deep Learning Recommendation Model for Personalization and Recommendation Systems | 扑扑星球</title>
+  <title>论文泛读·AutoInt:Automatic Feature Interaction Learning via Self-Attentive Neural Networks Tmall | 扑扑星球</title>
   
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://pupu.work/2019/10/06/paper/rs/20190703-2/">
+    <link itemprop="mainEntityOfPage" href="http://pupu.work/2020/03/25/paper/rs/20200325/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qianning">
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">论文泛读·Deep Learning Recommendation Model for Personalization and Recommendation Systems</h1>
+          <h1 class="post-title" itemprop="name headline">论文泛读·AutoInt:Automatic Feature Interaction Learning via Self-Attentive Neural Networks Tmall</h1>
         
 
         <div class="post-meta">
@@ -310,7 +310,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-06T11:08:07+08:00">2019-10-06</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-25T11:22:34+08:00">2020-03-25</time>
             
 
             
@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">893</span>
+                <span title="Words count in article">0</span>
               
 
               
@@ -376,7 +376,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">2 mins.</span>
+                <span title="Reading time">1 mins.</span>
               
             </div>
           
@@ -396,20 +396,7 @@
       
 
       
-        <p>原文链接：</p>
-<h3 id="简述："><a href="#简述：" class="headerlink" title="简述："></a>简述：</h3><p>这篇文章的主要工作是机构系统过滤和基于预测分析构建了深度学习推荐系统（DLRM）,并在PyTorch和Caffe 2框架中提供它的实现。此文章的一大亮点是利用嵌入表上的模型并行性设计了一种专门的并行化方案。在充分利用数据并行度以从全连接层中横向扩展计算时，缓解内存限制。<br><a id="more"></a></p>
-<h3 id="模型："><a href="#模型：" class="headerlink" title="模型："></a>模型：</h3><p>DLRM由以下组件组成：</p>
-<p>​    1.embedding</p>
-<p>​    2.Matrix Factorization</p>
-<p>​    3.Factorization Machine：将二阶交互作用合并为具有分类数据的线性模型</p>
-<p>​    4.Multilayer Perceptrons： 计算矩阵因式分解中嵌入之间的交互</p>
-<h3 id="采用了什么方法："><a href="#采用了什么方法：" class="headerlink" title="采用了什么方法："></a>采用了什么方法：</h3><p><img src="/images/paper/src201907032/模型结构.png" alt></p>
-<p>上图为模型的总体结构图，首先对数据特征进行处理：</p>
-<p>​    稀疏特征：embbeding</p>
-<p>​    密集特征：MLP</p>
-<p>预测函数由全连接(FC)层交错序列组成。</p>
-<p>实现并行化：DLRM将每个特征向量分解为代表带个类别的单个单元。包含大量参数训练时间过长，使用MLP并行，而embedding很占内存，不利于并行。此文章中的模型大部分时间用在embedding和全连接层，此模型没有对超参进行调整。</p>
-
+        
       
     </div>
     
@@ -462,8 +449,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/14/LeetCode/easy/700/" rel="next" title="LeetCode700.二叉树中的搜索">
-                <i class="fa fa-chevron-left"></i> LeetCode700.二叉树中的搜索
+              <a href="/2020/03/24/paper/rs/20200324/" rel="next" title="论文泛读·Sequence-Aware Recommendation with Long-Term and Short-Term Attention Memory Networks">
+                <i class="fa fa-chevron-left"></i> 论文泛读·Sequence-Aware Recommendation with Long-Term and Short-Term Attention Memory Networks
               </a>
             
           </div>
@@ -471,10 +458,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/10/06/paper/rs/20190704-1/" rel="prev" title="论文泛读·综述·Sequential Recommender Systems:Challenges, Progress and Prospects">
-                论文泛读·综述·Sequential Recommender Systems:Challenges, Progress and Prospects <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -528,17 +511,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -625,22 +599,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述："><span class="nav-number">1.</span> <span class="nav-text">简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型："><span class="nav-number">2.</span> <span class="nav-text">模型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用了什么方法："><span class="nav-number">3.</span> <span class="nav-text">采用了什么方法：</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
