@@ -362,7 +362,7 @@
                 
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
-                <span title="Words count in article">2.3k</span>
+                <span title="Words count in article">4.5k</span>
               
 
               
@@ -376,7 +376,7 @@
                 
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
-                <span title="Reading time">6 mins.</span>
+                <span title="Reading time">11 mins.</span>
               
             </div>
           
@@ -398,8 +398,23 @@
       
         <h3 id="1-简述："><a href="#1-简述：" class="headerlink" title="1.简述："></a>1.简述：</h3><p> 工业推荐系统通常由匹配阶段和排名阶段组成，以处理十亿规模的用户和项目。匹配阶段检索与用户兴趣相关的候选项，而排名阶段则根据用户兴趣对候选项目进行排序。大多数现有的基于深度学习的模型的做法是，将一个用户表示为单个向量，这不足以捕捉用户兴趣的不同性质。<a id="more"></a>该文章提出一种新的思路，使用多个向量表示一个用户，来编码用户兴趣的不同方面。提出具有动态路由的多兴趣网络（MIND），用在匹配阶段。该文章有两大亮点，第一是基于胶囊网络的思想设计了一个多兴趣提取器，能够聚集历史行为并提取兴趣；第二是基于注意力机制开发了标签感知注意技术，来帮助学习具有多个向量的用户表征。</p>
 <h3 id="2-技术架构："><a href="#2-技术架构：" class="headerlink" title="2.技术架构："></a>2.技术架构：</h3><p>MIND概述：MIND将具有用户配置文件功能的用户行为作为输入，并输出用户表示向量，以便在推荐的匹配阶段检索项目。来自输入层的id特征通过嵌入层转换为嵌入，并且每个项目的嵌入由池化层进一步平均。用户行为嵌入被输入到多兴趣提取器层，该层产生兴趣胶囊。通过将兴趣胶囊与用户信息嵌入链接并通过几个ReLU层对串联的胶囊进行转换，可以获得用户表示向量。在训练过程中，引入了一个额外的标签感知注意层来指导训练过程。在服务时，多个用户表示向量用于通过近似最近邻居查找的方法来检索项目。如下图：<br><img src="/images/paper/src20200322/001.png" alt="模型架构"></p>
-<h4 id="2-1多兴趣提取层"><a href="#2-1多兴趣提取层" class="headerlink" title="2.1多兴趣提取层"></a>2.1多兴趣提取层</h4><h5 id="动态路由重访。"><a href="#动态路由重访。" class="headerlink" title="动态路由重访。"></a>动态路由重访。</h5><p>下面简要介绍用于胶囊的表示学习的动态路由，这是一种以向量表示的神经单元的新形式。假设我们有两层胶囊，我们从第一层和第二层引用胶囊分别作为低层胶囊和高层胶囊。动态路由的目标是以迭代的方式在给定低层胶囊值的情况下计算高层胶囊的值。<br>在每次迭代中，给定低层胶囊$i∈{1,…,m}$和对应的向量$\vec{c}<em>{i}^{l} \in \mathbb{R}^{N</em>{l} \times 1}, i \in{1, \ldots, m}$，以及高层胶囊$j∈{1,…,n}$和对应的向量$\vec{c}<em>{j}^{h} \in \mathbb{R}^{N</em>{h} \times 1}, j \in{1, \ldots, n}$，通过下面的等式计算了低层胶囊$i$和高层胶囊$j$之间的路由日志$b_{i j}$:<br>$$b_{i j}=\left(\overrightarrow{\boldsymbol{c}}<em>{j}^{h}\right)^{T} \mathrm{S}</em>{i j} \overrightarrow{\boldsymbol{c}}<em>{i}^{l}$$<br>其中$\mathrm{S}</em>{i j} \in \mathbb{R}^{N_{h} \times N_{l}}$表示要学习的双线性映射矩阵。<br>计算路由日志后，将高层胶囊$j$的候选向量计算为所有低层胶囊的加权和：<br>$$\vec{z}<em>{j}^{h}=\sum</em>{i=1}^{m} w_{i j} \mathrm{S}<em>{i j} \vec{c}</em>{i}^{l}$$<br>其中$w_{ij}$表示连接低层胶囊$i$和高层胶囊$j$的权重，是通过对路由日志执行softmax来计算的，其值为：<br>$$w_{i j}=\frac{\exp b_{i j}}{\sum_{k=1}^{m} \exp b_{i k}}$$<br>最后，应用非线性“squash”函数获得高级胶囊的向量，如下：<br>$$\vec{c}<em>{j}^{h}=\operatorname{squash}\left(\vec{z}</em>{j}^{h}\right)=\frac{\left|\vec{z}<em>{j}\right|^{2}}{1+\left|\vec{z}</em>{j}^{h}\right|^{2}} \frac{\vec{z}<em>{j}^{h}}{\left|\vec{z}</em>{j}^{h}\right|}$$<br>$b_{ij}$的值初始化为零，并且路由过程通常重复3次以收敛。路由完成后，高层胶囊的值$\vec{c}_{j}^{h}$是固定的，可用作输入用于下一层。</p>
-<h5 id="B2I动态路由"><a href="#B2I动态路由" class="headerlink" title="B2I动态路由"></a>B2I动态路由</h5><h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="3.结论："></a>3.结论：</h3>
+<h4 id="2-1多兴趣提取层"><a href="#2-1多兴趣提取层" class="headerlink" title="2.1多兴趣提取层"></a>2.1多兴趣提取层</h4><h5 id="动态路由重访"><a href="#动态路由重访" class="headerlink" title="动态路由重访"></a>动态路由重访</h5><p>下面简要介绍用于胶囊的表示学习的动态路由，这是一种以向量表示的神经单元的新形式。假设我们有两层胶囊，我们从第一层和第二层引用胶囊分别作为低层胶囊和高层胶囊。动态路由的目标是以迭代的方式在给定低层胶囊值的情况下计算高层胶囊的值。<br>在每次迭代中，给定低层胶囊$i∈{1,…,m}$和对应的向量$\vec{c}<em>{i}^{l} \in \mathbb{R}^{N</em>{l} \times 1}, i \in{1, \ldots, m}$，以及高层胶囊$j∈{1,…,n}$和对应的向量$\vec{c}<em>{j}^{h} \in \mathbb{R}^{N</em>{h} \times 1}, j \in{1, \ldots, n}$，通过下面的等式计算了低层胶囊$i$和高层胶囊$j$之间的路由对数$b_{ij}$:</p>
+<p>$$b_{ij}=\left(\overrightarrow{\boldsymbol{c}}<em>{j}^{h}\right)^{T} \mathrm{S}</em>{ij} \overrightarrow{\boldsymbol{c}}_{i}^{l}$$</p>
+<p>其中$\mathrm{S}<em>{ij} \in \mathbb{R}^{N</em>{h} \times N_{l}}$表示要学习的双线性映射矩阵。</p>
+<p>计算路由对数后，将高层胶囊$j$的候选向量计算为所有低层胶囊的加权和：</p>
+<p>$${\vec{z}}<em>{j}^{h}=\sum</em>{i=1}^{m} w_{ij}\mathrm{S}<em>{ij}\vec{c}</em>{i}^{l}$$</p>
+<p>其中$w_{ij}$表示连接低层胶囊$i$和高层胶囊$j$的权重，是通过对路由对数执行softmax来计算的，其值为：</p>
+<p>$$w_{ij}=\frac{\exp b_{ij}}{\sum_{k=1}^{m} \exp b_{ik}}$$</p>
+<p>最后，应用非线性“squash”函数获得高级胶囊的向量，如下：</p>
+<p>$$\vec{c}<em>{j}^{h}=\operatorname{squash}\left(\vec{z}</em>{j}^{h}\right)=\frac{\left|\vec{z}<em>{j}\right|^{2}}{1+\left|\vec{z}</em>{j}^{h}\right|^{2}} \frac{\vec{z}<em>{j}^{h}}{\left|\vec{z}</em>{j}^{h}\right|}$$</p>
+<p>$b_{ij}$的值初始化为零，并且路由过程通常重复3次以收敛。路由完成后，高层胶囊的值$\vec{c}_{j}^{h}$是固定的，可用作输入用于下一层。</p>
+<h5 id="B2I动态路由"><a href="#B2I动态路由" class="headerlink" title="B2I动态路由"></a>B2I动态路由</h5><p>胶囊是一种由一种向量表示的神经元。该文章期望基于向量的胶囊能够表示实体的不同属性，其中胶囊的方向表示一种属性，胶囊的长度用于表示该属性存在的概率。相应地，多兴趣提取器层的目的是学习表示用户兴趣的属性以及是否存在相应兴趣的表示。胶囊和兴趣表示之间的语义联系促使我们将行为/兴趣表示视为行为/兴趣胶囊，并采用动态路由从行为胶囊中学习兴趣胶囊。但是，针对图像数据提出的原始路由算法不能直接应用于处理用户行为数据。该文章提出了“兴趣转化为行为”（Behavior-to-Best，B2I）动态路由，用于将用户的行为自适应地汇总到兴趣表示向量中，这与原始路由算法在三个方面有所不同。</p>
+<p><strong>共享双线性映射矩阵</strong>  由于两个考虑因素，在原始动态路由中，每对低级封装和高级封装使用固定双线性映射矩阵S而不是单独的双线性映射矩阵。 一方面，用户行为的长度是可变的，对于天猫用户，其行为范围是几十到数百，因此可以推广使用固定双线性映射矩阵。 另一方面，我们希望兴趣胶囊位于相同的向量空间中，但是不同的双线性映射矩阵会将兴趣胶囊映射到不同的向量空间中。 因此，路由日志由下面的等式计算：<br>$$b_{i j}=\vec{u}<em>{j}^{T} \overrightarrow{\mathrm{S} \overrightarrow{\boldsymbol{e}}}</em>{i}, \quad i \in I_{u}, j \in{1, \ldots, K}$$<br>其中${\vec{e}<em>{i}∈R^d}$表示行为项$i$的嵌入，<br>${\vec{u}</em>{j}∈R^d}$b表示感兴趣胶囊的向量$j$。双线性映射矩阵在${S∈<br>R^{d×d}}$上的每对行为胶囊和兴趣之间共享胶囊。</p>
+<p><strong>随机初始化的路由对数</strong> 由于使用了共享的双线性映射矩阵S，将路由对数初始化为零将导致相同的初始兴趣胶囊。那么随后的迭代将陷入一种情况，不同的关注点胶囊始终保持相同。为了缓解这种现象，我们从高斯分布${N(0，σ^2)}$中采样一个随机矩阵，初始路由对数以使初始关注点彼此不同，类似于完善的K-Means聚类算法。</p>
+<p><strong>动态兴趣数</strong> 由于不同用户拥有的兴趣胶囊数量可能不同，该文章引入了一种启发式规则，用于针对不同用户自适应地调整K值。具体来说，用户u的K值由下式计算：<br>$$K_{u}^{\prime}=\max \left(1, \min \left(K, \log <em>{2}\left(\left|I</em>{u}\right|\right)\right)\right)$$<br>这种调整兴趣胶囊数量的策略可以为那些兴趣较少的用户节省一些资源，包括计算和内存资源。</p>
+<h4 id="2-2标签感知注意层"><a href="#2-2标签感知注意层" class="headerlink" title="2.2标签感知注意层"></a>2.2标签感知注意层</h4><p>通过多兴趣提取器层，用户的行为嵌入会生成多个兴趣胶囊。不同的兴趣胶囊代表用户兴趣的不同方面，并且相关的兴趣胶囊用于评估用户对特定商品的偏好。因此，在训练过程中，我们基于缩放的点积注意力设计了一个标签感知注意力层，使目标项目选择使用哪个兴趣胶囊。具体而言，对于一个目标商品，我们计算每个兴趣胶囊与目标商品嵌入之间的兼容性，并计算该兴趣胶囊的加权总和作为目标商品的用户表示向量，其中一个兴趣胶囊的权重由相应的兼容性确定。 在注意标签的注意中，标签是查询，兴趣胶囊既是键又是值。用户u关于项i的输出向量计算为：<br>$$\begin{aligned}<br>\vec{v}<em>{u} &amp;=\text { Attention }\left(\vec{e}</em>{i}, \mathrm{V}<em>{u}, \mathrm{V}</em>{u}\right) \<br>&amp;=\mathrm{V}<em>{u} \operatorname{softmax}\left(\operatorname{pow}\left(\mathrm{V}</em>{u}^{\mathrm{T} \rightarrow} i, p\right)\right)<br>\end{aligned}$$</p>
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="3.结论："></a>3.结论：</h3><p>该提出了一种新的神经网络结构，即具有动态路由的多兴趣网络（MIND），以代表用户在电子商务推荐匹配阶段的不同兴趣，涉及数十亿规模的用户和项目。设计了具有不同动态路由的多兴趣提取器层，以提取用户的不同兴趣，然后使用一种新颖的标签感知注意方案来训练这些兴趣。进行了离线实验，以证明MIND在公共基准上具有出色的性能。<br>该文章提出了未来工作的两个方向：<br>    第一个方向是合并有关用户行为顺序的更多信息，例如行为时间等。<br>    第二个方向是优化动态路由的初始化方案，参考K-means ++初始化方案，以实现更好的用户表示。</p>
+
       
     </div>
     
@@ -625,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简述："><span class="nav-number">1.</span> <span class="nav-text">1.简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-技术架构："><span class="nav-number">2.</span> <span class="nav-text">2.技术架构：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1多兴趣提取层"><span class="nav-number">2.1.</span> <span class="nav-text">2.1多兴趣提取层</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#动态路由重访。"><span class="nav-number">2.1.1.</span> <span class="nav-text">动态路由重访。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B2I动态路由"><span class="nav-number">2.1.2.</span> <span class="nav-text">B2I动态路由</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-结论："><span class="nav-number">3.</span> <span class="nav-text">3.结论：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简述："><span class="nav-number">1.</span> <span class="nav-text">1.简述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-技术架构："><span class="nav-number">2.</span> <span class="nav-text">2.技术架构：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1多兴趣提取层"><span class="nav-number">2.1.</span> <span class="nav-text">2.1多兴趣提取层</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#动态路由重访"><span class="nav-number">2.1.1.</span> <span class="nav-text">动态路由重访</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B2I动态路由"><span class="nav-number">2.1.2.</span> <span class="nav-text">B2I动态路由</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2标签感知注意层"><span class="nav-number">2.2.</span> <span class="nav-text">2.2标签感知注意层</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-结论："><span class="nav-number">3.</span> <span class="nav-text">3.结论：</span></a></li></ol></div>
             
 
           </div>
@@ -657,7 +672,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="Site words total count">13k</span>
+    <span title="Site words total count">15k</span>
   
 
   
@@ -666,7 +681,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Site reading time">34 mins.</span>
+    <span title="Site reading time">38 mins.</span>
   
 </div>
 
